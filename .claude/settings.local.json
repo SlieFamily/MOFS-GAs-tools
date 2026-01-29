@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python main.py --dataset musk2 --runs 1 --max_gen 5 --pop_size 20)",
+      "Bash(python main.py --help)"
+    ]
+  }
+}
