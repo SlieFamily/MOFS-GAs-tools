@@ -1,9 +1,4 @@
-"""
-变异算子模块
-实现二进制编码的变异操作
-"""
 import numpy as np
-
 
 class Mutation:
     """变异算子"""

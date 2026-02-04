@@ -8,13 +8,10 @@ from typing import Tuple
 
 
 class DataLoader:
-    """数据集加载器"""
 
     @staticmethod
     def load(filepath: str) -> Tuple[np.ndarray, np.ndarray]:
         """
-        加载CSV数据集
-
         Args:
             filepath: CSV文件路径
 

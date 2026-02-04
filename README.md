@@ -20,77 +20,6 @@ This research project implements and compares 9 state-of-the-art multi-objective
 | DR-RPMODE | 2025 | Two-phase dimensionality reduction |
 | DAEA | 2020 | Duplicate analysis for diversity |
 
-> Currently implemented: **NSGA-II**. Other algorithms can be added following the same architecture.
-
-## Project Structure
-
-```
-MOFSA/
-├── main.py                    # Main entry point with CLI argument parsing
-├── config.py                  # Configuration management (parameters, paths)
-├── datasets/                  # 33 benchmark datasets (CSV format)
-├── papers/                    # Reference papers for comparison algorithms
-├── results/                   # Output directory for experiment results
-│
-├── data/                      # Data handling module
-│   ├── __init__.py
-│   ├── loader.py              # CSV loader with auto header detection
-│   └── preprocessor.py        # Missing value imputation, standardization, splitting
-│
-├── algorithms/                # Algorithm implementations
-│   ├── __init__.py
-│   ├── base.py                # Abstract base class and RunResult dataclass
-│   └── nsga2.py               # NSGA-II implementation
-│
-├── evaluation/                # Evaluation module
-│   ├── __init__.py
-│   ├── fitness.py             # KNN-based fitness evaluation (5-fold CV)
-│   ├── pareto.py              # Fast non-dominated sorting, crowding distance
-│   └── metrics.py             # Hypervolume (HV) calculation
-│
-├── operators/                 # Genetic operators
-│   ├── __init__.py
-│   ├── crossover.py           # Single-point, two-point, uniform crossover
-│   ├── mutation.py            # Bit-flip mutation
-│   └── selection.py           # Binary tournament selection
-│
-└── utils/                     # Utility functions
-    ├── __init__.py
-    └── io.py                  # Result saving (CSV output)
-```
-
-## Architecture Design
-
-### Modular Design Principles
-
-1. **Separation of Concerns**: Each module handles a specific responsibility
-   - `data/`: Data loading and preprocessing only
-   - `algorithms/`: Algorithm logic only
-   - `evaluation/`: Fitness evaluation and metrics only
-   - `operators/`: Genetic operators only
-   - `utils/`: I/O operations only
-
-2. **Extensibility**: New algorithms can be added by:
-   - Inheriting from `BaseAlgorithm` in `algorithms/base.py`
-   - Implementing `initialize_population()` and `evolve()` methods
-   - Registering in `config.py` and `main.py`
-
-3. **Reproducibility**: All random operations use seeded generators
-   - Data split: fixed seed 42
-   - Algorithm runs: seeds 42-71 for 30 independent runs
-
-### Key Components
-
-| Component | File | Responsibility |
-|-----------|------|----------------|
-| Configuration | `config.py` | Experiment parameters, dataset/algorithm lists |
-| Data Loading | `data/loader.py` | CSV parsing, auto header detection |
-| Preprocessing | `data/preprocessor.py` | Imputation, standardization, train/test split |
-| Base Algorithm | `algorithms/base.py` | Abstract interface, `RunResult` dataclass |
-| Fitness Evaluation | `evaluation/fitness.py` | KNN classifier, 5-fold stratified CV |
-| Pareto Operations | `evaluation/pareto.py` | Fast non-dominated sorting, crowding distance |
-| Metrics | `evaluation/metrics.py` | Hypervolume calculation |
-| Result Saving | `utils/io.py` | CSV output in required format |
 
 ## Installation
 
@@ -212,6 +141,79 @@ Following the experimental document specifications:
 - **Data split**: 70% train / 30% test (stratified, seed=42)
 - **HV reference point**: (1.0, 1.0)
 
+
+
+## Project Structure
+
+```
+MOFSA/
+├── main.py                    # Main entry point with CLI argument parsing
+├── config.py                  # Configuration management (parameters, paths)
+├── datasets/                  # 33 benchmark datasets (CSV format)
+├── papers/                    # Reference papers for comparison algorithms
+├── results/                   # Output directory for experiment results
+│
+├── data/                      # Data handling module
+│   ├── __init__.py
+│   ├── loader.py              # CSV loader with auto header detection
+│   └── preprocessor.py        # Missing value imputation, standardization, splitting
+│
+├── algorithms/                # Algorithm implementations
+│   ├── __init__.py
+│   ├── base.py                # Abstract base class and RunResult dataclass
+│   └── nsga2.py               # NSGA-II implementation
+│
+├── evaluation/                # Evaluation module
+│   ├── __init__.py
+│   ├── fitness.py             # KNN-based fitness evaluation (5-fold CV)
+│   ├── pareto.py              # Fast non-dominated sorting, crowding distance
+│   └── metrics.py             # Hypervolume (HV) calculation
+│
+├── operators/                 # Genetic operators
+│   ├── __init__.py
+│   ├── crossover.py           # Single-point, two-point, uniform crossover
+│   ├── mutation.py            # Bit-flip mutation
+│   └── selection.py           # Binary tournament selection
+│
+└── utils/                     # Utility functions
+    ├── __init__.py
+    └── io.py                  # Result saving (CSV output)
+```
+
+## Architecture Design
+
+### Modular Design Principles
+
+1. **Separation of Concerns**: Each module handles a specific responsibility
+   - `data/`: Data loading and preprocessing only
+   - `algorithms/`: Algorithm logic only
+   - `evaluation/`: Fitness evaluation and metrics only
+   - `operators/`: Genetic operators only
+   - `utils/`: I/O operations only
+
+2. **Extensibility**: New algorithms can be added by:
+   - Inheriting from `BaseAlgorithm` in `algorithms/base.py`
+   - Implementing `initialize_population()` and `evolve()` methods
+   - Registering in `config.py` and `main.py`
+
+3. **Reproducibility**: All random operations use seeded generators
+   - Data split: fixed seed 42
+   - Algorithm runs: seeds 42-71 for 30 independent runs
+
+### Key Components
+
+| Component | File | Responsibility |
+|-----------|------|----------------|
+| Configuration | `config.py` | Experiment parameters, dataset/algorithm lists |
+| Data Loading | `data/loader.py` | CSV parsing, auto header detection |
+| Preprocessing | `data/preprocessor.py` | Imputation, standardization, train/test split |
+| Base Algorithm | `algorithms/base.py` | Abstract interface, `RunResult` dataclass |
+| Fitness Evaluation | `evaluation/fitness.py` | KNN classifier, 5-fold stratified CV |
+| Pareto Operations | `evaluation/pareto.py` | Fast non-dominated sorting, crowding distance |
+| Metrics | `evaluation/metrics.py` | Hypervolume calculation |
+| Result Saving | `utils/io.py` | CSV output in required format |
+
+
 ## Adding New Algorithms
 
 1. Create a new file in `algorithms/` (e.g., `algorithms/your_algorithm.py`)
@@ -233,9 +235,6 @@ class YourAlgorithm(BaseAlgorithm):
 3. Register in `config.py` `AVAILABLE_ALGORITHMS` list
 4. Add case in `main.py` `run_experiment()` function
 
-## License
-
-This project is for research purposes.
 
 ## References
 

@@ -1,7 +1,3 @@
-"""
-适应度评估模块
-使用KNN进行特征子集评估
-"""
 import numpy as np
 from typing import Tuple, List
 from sklearn.neighbors import KNeighborsClassifier
@@ -9,8 +5,6 @@ from sklearn.model_selection import StratifiedKFold
 
 
 class FitnessEvaluator:
-    """适应度评估器"""
-
     def __init__(
         self,
         X_train: np.ndarray,
@@ -20,8 +14,6 @@ class FitnessEvaluator:
         seed: int = 42
     ):
         """
-        初始化适应度评估器
-
         Args:
             X_train: 训练集特征
             y_train: 训练集标签
@@ -39,7 +31,6 @@ class FitnessEvaluator:
     def evaluate(self, individual: np.ndarray) -> Tuple[float, float]:
         """
         评估单个个体的适应度
-
         Args:
             individual: 二进制编码的个体
 

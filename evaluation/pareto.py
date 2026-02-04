@@ -1,25 +1,11 @@
-"""
-Pareto操作模块
-实现非支配排序和拥挤度距离计算
-"""
 import numpy as np
 from typing import List, Tuple
 
-
 class ParetoOperations:
-    """Pareto相关操作"""
-
     @staticmethod
     def dominates(obj1: np.ndarray, obj2: np.ndarray) -> bool:
         """
         判断obj1是否支配obj2（最小化问题）
-
-        Args:
-            obj1: 第一个目标向量
-            obj2: 第二个目标向量
-
-        Returns:
-            True如果obj1支配obj2
         """
         return np.all(obj1 <= obj2) and np.any(obj1 < obj2)
 

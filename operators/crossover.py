@@ -1,14 +1,8 @@
-"""
-交叉算子模块
-实现二进制编码的交叉操作
-"""
 import numpy as np
 from typing import Tuple
 
-
 class Crossover:
     """交叉算子"""
-
     @staticmethod
     def single_point(
         parent1: np.ndarray,

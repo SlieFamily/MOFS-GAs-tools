@@ -10,12 +10,9 @@ from sklearn.impute import SimpleImputer
 
 
 class DataPreprocessor:
-    """数据预处理器"""
 
     def __init__(self, test_size: float = 0.3, random_state: int = 42):
         """
-        初始化预处理器
-
         Args:
             test_size: 测试集比例
             random_state: 随机种子

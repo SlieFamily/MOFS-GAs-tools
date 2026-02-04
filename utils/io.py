@@ -1,7 +1,3 @@
-"""
-结果保存模块
-负责将实验结果保存到文件
-"""
 import os
 import numpy as np
 import pandas as pd
@@ -13,15 +9,8 @@ from evaluation.metrics import MetricsCalculator
 
 
 class ResultSaver:
-    """结果保存器"""
-
     def __init__(self, output_dir: str):
-        """
-        初始化结果保存器
 
-        Args:
-            output_dir: 输出目录
-        """
         self.output_dir = output_dir
         self.pareto_dir = os.path.join(output_dir, "pareto_fronts_per_run")
 

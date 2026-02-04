@@ -1,7 +1,3 @@
-"""
-NSGA-II算法实现
-经典的多目标优化算法用于特征选择
-"""
 import time
 import numpy as np
 from typing import List, Dict
@@ -16,8 +12,6 @@ from operators.selection import Selection
 
 
 class NSGA2(BaseAlgorithm):
-    """NSGA-II算法"""
-
     def __init__(
         self,
         pop_size: int = 100,

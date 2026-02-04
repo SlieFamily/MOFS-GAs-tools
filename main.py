@@ -10,6 +10,8 @@ from config import ExperimentConfig, AVAILABLE_DATASETS, AVAILABLE_ALGORITHMS
 from data.loader import DataLoader
 from data.preprocessor import DataPreprocessor
 from algorithms.nsga2 import NSGA2
+from algorithms.daea import DAEA
+from algorithms.prdh import PRDH
 from evaluation.fitness import FitnessEvaluator
 from utils.io import ResultSaver
 
@@ -147,6 +149,30 @@ def run_experiment(config: ExperimentConfig):
                 convergence_interval=config.convergence_interval,
                 hv_ref_point=config.hv_ref_point
             )
+        elif config.algorithm == "DAEA":
+            algorithm = DAEA(
+                pop_size=config.pop_size,
+                max_generations=config.max_generations,
+                crossover_prob=config.crossover_prob,
+                mutation_prob=mutation_prob,
+                seed=seed,
+                k_neighbors=config.k_neighbors,
+                cv_folds=config.cv_folds,
+                convergence_interval=config.convergence_interval,
+                hv_ref_point=config.hv_ref_point
+            )
+        elif config.algorithm == "PRDH":
+            algorithm = PRDH(
+                pop_size=config.pop_size,
+                max_generations=config.max_generations,
+                crossover_prob=config.crossover_prob,
+                mutation_prob=mutation_prob,
+                seed=seed,
+                k_neighbors=config.k_neighbors,
+                cv_folds=config.cv_folds,
+                convergence_interval=config.convergence_interval,
+                hv_ref_point=config.hv_ref_point
+            )
         else:
             raise ValueError(f"未实现的算法: {config.algorithm}")
 
@@ -202,7 +228,6 @@ def run_experiment(config: ExperimentConfig):
 
 
 def main():
-    """主函数"""
     args = parse_args()
 
     # 构建配置

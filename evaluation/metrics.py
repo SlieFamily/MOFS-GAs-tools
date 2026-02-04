@@ -1,14 +1,8 @@
-"""
-评估指标模块
-实现HV（超体积）等指标计算
-"""
 import numpy as np
 from typing import Tuple
 
 
 class MetricsCalculator:
-    """指标计算器"""
-
     @staticmethod
     def hypervolume(
         pareto_front: np.ndarray,
@@ -59,12 +53,6 @@ class MetricsCalculator:
     def compute_statistics(values: np.ndarray) -> dict:
         """
         计算统计量
-
-        Args:
-            values: 数值数组
-
-        Returns:
-            统计量字典
         """
         return {
             "mean": np.mean(values),

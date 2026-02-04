@@ -6,7 +6,7 @@
 
 本研究项目实现并比较了9种最新的多目标特征选择算法，测试数据覆盖33个基准数据集，包括中维（100-1,000特征）、高维（1,000-10,000特征）和超高维（>10,000特征）数据。
 
-### 已实现/待实现算法
+### 已实现算法
 
 | 算法 | 年份 | 描述 |
 |------|------|------|
@@ -20,7 +20,6 @@
 | DR-RPMODE | 2025 | 两阶段降维优化框架 |
 | DAEA | 2020 | 重复解分析增强多样性 |
 
-> 当前已实现：**NSGA-II**。其他算法可按相同架构添加。
 
 ## 项目结构
 
@@ -58,39 +57,6 @@ MOFSA/
     ├── __init__.py
     └── io.py                  # 结果保存（CSV输出）
 ```
-
-## 架构设计原则
-
-### 模块化设计
-
-1. **职责分离**：每个模块处理特定职责
-   - `data/`：仅负责数据加载和预处理
-   - `algorithms/`：仅负责算法逻辑
-   - `evaluation/`：仅负责适应度评估和指标计算
-   - `operators/`：仅负责遗传算子
-   - `utils/`：仅负责I/O操作
-
-2. **可扩展性**：添加新算法只需：
-   - 继承 `algorithms/base.py` 中的 `BaseAlgorithm`
-   - 实现 `initialize_population()` 和 `evolve()` 方法
-   - 在 `config.py` 和 `main.py` 中注册
-
-3. **可重现性**：所有随机操作使用种子控制
-   - 数据划分：固定种子 42
-   - 算法运行：种子 42-71（30次独立运行）
-
-### 核心组件
-
-| 组件 | 文件 | 职责 |
-|------|------|------|
-| 配置管理 | `config.py` | 实验参数、数据集/算法列表 |
-| 数据加载 | `data/loader.py` | CSV解析、自动表头检测 |
-| 数据预处理 | `data/preprocessor.py` | 缺失值填充、标准化、训练/测试划分 |
-| 算法基类 | `algorithms/base.py` | 抽象接口、`RunResult` 数据类 |
-| 适应度评估 | `evaluation/fitness.py` | KNN分类器、5折分层交叉验证 |
-| Pareto操作 | `evaluation/pareto.py` | 快速非支配排序、拥挤度距离 |
-| 指标计算 | `evaluation/metrics.py` | 超体积计算 |
-| 结果保存 | `utils/io.py` | 按规定格式输出CSV |
 
 ## 安装
 
@@ -212,6 +178,40 @@ results/NSGA-II/GLIOMA/
 - **数据划分**：70%训练 / 30%测试（分层，seed=42）
 - **HV参考点**：(1.0, 1.0)
 
+
+## 架构设计原则
+
+### 模块化设计
+
+1. **职责分离**：每个模块处理特定职责
+   - `data/`：仅负责数据加载和预处理
+   - `algorithms/`：仅负责算法逻辑
+   - `evaluation/`：仅负责适应度评估和指标计算
+   - `operators/`：仅负责遗传算子
+   - `utils/`：仅负责I/O操作
+
+2. **可扩展性**：添加新算法只需：
+   - 继承 `algorithms/base.py` 中的 `BaseAlgorithm`
+   - 实现 `initialize_population()` 和 `evolve()` 方法
+   - 在 `config.py` 和 `main.py` 中注册
+
+3. **可重现性**：所有随机操作使用种子控制
+   - 数据划分：固定种子 42
+   - 算法运行：种子 42-71（30次独立运行）
+
+### 核心组件
+
+| 组件 | 文件 | 职责 |
+|------|------|------|
+| 配置管理 | `config.py` | 实验参数、数据集/算法列表 |
+| 数据加载 | `data/loader.py` | CSV解析、自动表头检测 |
+| 数据预处理 | `data/preprocessor.py` | 缺失值填充、标准化、训练/测试划分 |
+| 算法基类 | `algorithms/base.py` | 抽象接口、`RunResult` 数据类 |
+| 适应度评估 | `evaluation/fitness.py` | KNN分类器、5折分层交叉验证 |
+| Pareto操作 | `evaluation/pareto.py` | 快速非支配排序、拥挤度距离 |
+| 指标计算 | `evaluation/metrics.py` | 超体积计算 |
+| 结果保存 | `utils/io.py` | 按规定格式输出CSV |
+
 ## 添加新算法
 
 1. 在 `algorithms/` 中创建新文件（如 `algorithms/your_algorithm.py`）
@@ -232,10 +232,6 @@ class YourAlgorithm(BaseAlgorithm):
 
 3. 在 `config.py` 的 `AVAILABLE_ALGORITHMS` 列表中注册
 4. 在 `main.py` 的 `run_experiment()` 函数中添加分支
-
-## 许可证
-
-本项目仅供研究使用。
 
 ## 参考文献
 

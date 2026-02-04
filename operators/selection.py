@@ -1,10 +1,5 @@
-"""
-选择算子模块
-实现锦标赛选择等操作
-"""
 import numpy as np
 from typing import List, Tuple
-
 
 class Selection:
     """选择算子"""
